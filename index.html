@@ -1,0 +1,119 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Фархад & Тахмина | Свадьба</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f6f1e9;color:#443b32;text-align:center;font-family:Georgia,serif}
+section{padding:65px 20px}
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;border:1px solid #bca681;outline:1px solid #bca681;outline-offset:-9px;padding:35px 20px}
+.small{font:10px Arial,sans-serif;letter-spacing:4px;color:#a58a62;text-transform:uppercase}
+h1{font-size:clamp(46px,12vw,76px);font-weight:normal;line-height:1.15;margin:35px 0}
+h2{font-size:32px;font-weight:normal}
+p{color:#82776a;line-height:1.9}
+.gold{color:#a58a62;font-style:italic}
+.line{width:55px;height:1px;background:#a58a62;margin:25px auto}
+.date{letter-spacing:4px;font-size:18px}
+.count{display:flex;justify-content:center;gap:22px;margin:35px 0}
+.count strong{display:block;font-size:32px;font-weight:normal}
+.count span{font:9px Arial;color:#82776a;letter-spacing:1px}
+.card{max-width:430px;margin:25px auto;padding:25px 20px;border:1px solid #d8cbb9}
+a.btn,button{display:inline-block;padding:15px 20px;margin-top:15px;background:transparent;border:1px solid #a58a62;color:#443b32;text-decoration:none;font:11px Arial;letter-spacing:2px;cursor:pointer}
+input,select{width:100%;padding:14px;margin:10px 0;border:1px solid #d8cbb9;background:transparent;font-size:15px;color:#443b32}
+label{display:block;text-align:left;font:12px Arial;color:#82776a;margin-top:15px}
+footer{padding:35px;color:#a58a62}
+</style>
+</head>
+<body>
+<section class="hero">
+<div class="small">Приглашение на свадьбу</div>
+<h1>Фархад<br><span class="gold">&</span><br>Тахмина</h1>
+<div class="line"></div>
+<p>С любовью приглашаем вас<br>разделить с нами самый важный день</p>
+<div class="date">12 · 12 · 2026</div>
+<p>Павлодар, Казахстан</p>
+<a class="btn" href="#place">НАШ ДЕНЬ ↓</a>
+</section>
+
+<section>
+<div class="small">Сохраните дату</div>
+<h2>До нашей свадьбы</h2>
+<p>Мы будем счастливы разделить этот день с вами.</p>
+<div class="count">
+<div><strong id="d">0</strong><span>ДНЕЙ</span></div>
+<div><strong id="h">00</strong><span>ЧАСОВ</span></div>
+<div><strong id="m">00</strong><span>МИНУТ</span></div>
+<div><strong id="s">00</strong><span>СЕКУНД</span></div>
+</div>
+<p id="timerText"></p>
+</section>
+
+<section id="place">
+<div class="small">Место встречи</div>
+<h2>Будем ждать вас</h2>
+<div class="card">
+<div class="small">Банкетный зал</div>
+<h2>Orda</h2>
+<p>Orda Banquet Hall</p>
+<div class="line"></div>
+<p>Павлодар, ул. Циолковского, 27</p>
+<p>12 декабря 2026 года<br>Начало в 16:00</p>
+<a class="btn" target="_blank" rel="noopener" href="https://2gis.kz/pavlodar/search/Orda%20banket%20hall">ОТКРЫТЬ КАРТУ</a>
+</div>
+</section>
+
+<section>
+<div class="small">Пожалуйста, ответьте</div>
+<h2>Вы с нами?</h2>
+<p>Подтвердите, пожалуйста, своё присутствие.</p>
+<div class="card">
+<form id="rsvp">
+<label for="guest">Ваше имя</label>
+<input id="guest" required placeholder="Имя и фамилия">
+<label for="answer">Ваш ответ</label>
+<select id="answer" required>
+<option value="">Выберите ответ</option>
+<option>С удовольствием буду</option>
+<option>К сожалению, не смогу</option>
+</select>
+<label for="num">Количество гостей, включая вас</label>
+<select id="num">
+<option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
+</select>
+<button type="submit">ОТПРАВИТЬ ОТВЕТ</button>
+<p id="message"></p>
+</form>
+</div>
+</section>
+<footer>Фархад & Тахмина<div class="line"></div>12 декабря 2026 · С любовью</footer>
+
+<script>
+const wedding = new Date("2026-12-12T16:00:00+05:00").getTime();
+function tick(){
+ const diff=wedding-Date.now();
+ if(diff<=0){
+  document.getElementById("timerText").textContent="Сегодня наш особенный день!";
+  ["d","h","m","s"].forEach(id=>document.getElementById(id).textContent="0");
+  return;
+ }
+ document.getElementById("d").textContent=Math.floor(diff/86400000);
+ document.getElementById("h").textContent=String(Math.floor(diff/3600000)%24).padStart(2,"0");
+ document.getElementById("m").textContent=String(Math.floor(diff/60000)%60).padStart(2,"0");
+ document.getElementById("s").textContent=String(Math.floor(diff/1000)%60).padStart(2,"0");
+}
+tick();setInterval(tick,1000);
+
+document.getElementById("rsvp").addEventListener("submit",function(e){
+ e.preventDefault();
+ const guest=document.getElementById("guest").value;
+ const answer=document.getElementById("answer").value;
+ const num=document.getElementById("num").value;
+ const text="Свадьба Фархада и Тахмины 💍%0AИмя: "+encodeURIComponent(guest)+"%0AОтвет: "+encodeURIComponent(answer)+"%0AКоличество гостей: "+num;
+ document.getElementById("message").innerHTML='<a class="btn" target="_blank" rel="noopener" href="https://wa.me/77713708339?text='+text+'">ОТКРЫТЬ WHATSAPP</a>';
+});
+</script>
+</body>
+</html>
